@@ -88,4 +88,36 @@ public class Lista<E> {
 
 
 
+    public double media(int x){
+
+
+        Celula<E> anterior = this.primeiro;
+        Celula<E> celulaRemovida;
+        Celula<E> proximaCelula;
+
+
+        int soma=0;
+
+        if(x==0){
+            return 0;
+        }
+
+        if (x<0){
+            return -1;
+        }
+
+        for(int i=0; i<x;i++){
+
+            anterior=anterior.getProximo();
+            
+        }
+
+
+    }
+
+
+
+
+
+
 }
