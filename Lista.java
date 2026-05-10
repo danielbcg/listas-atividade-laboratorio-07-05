@@ -40,6 +40,21 @@ public class Lista<E> {
     }
 
 
+    public void inserirFinal(E valor){
+
+        Celula<E> novo = new Celula<>(valor);
+        this.ultimo.setProximo(novo);
+        this.ultimo=novo; // n entendi 
+        this.tamanho++; //aumenta tamanho da lista pq é flexivel
+
+
+
+
+    }
+
+
+
+
     public E remover(int posicao){
 
 
@@ -91,28 +106,75 @@ public class Lista<E> {
     public double media(int x){
 
 
-        Celula<E> anterior = this.primeiro;
-        Celula<E> celulaRemovida;
-        Celula<E> proximaCelula;
+        double soma = 0;
+
+        Celula<E> anterior = this.primeiro.getProximo();
+
+        double elementosNaoVazios=0;
 
 
-        int soma=0;
+        if(anterior != null){
 
-        if(x==0){
-            return 0;
+            for(int i=0; i<x; i++) {
+
+                soma += (double) anterior.getItem();
+
+                anterior = anterior.getProximo();
+
+                elementosNaoVazios++;
+            }
+
+
+
+
         }
 
-        if (x<0){
-            return -1;
+
+
+        double media=0;
+
+
+        media = soma / elementosNaoVazios;
+
+        return media;
+
+
+    }
+
+
+
+
+
+
+
+    public Lista<E> filtrar(double condicao, int quantidade){
+
+
+        //nova lista
+        Lista<E> lista = new Lista<>();
+
+        Celula<E> anterior = this.primeiro.getProximo();
+
+        if(condicao<0 || quantidade<1){ // pelo menos 1 elemento pra quantidade
+
+            for(int i=0; i<quantidade && anterior != null ; i++){
+
+                double valorItem = (double) anterior.getItem();
+
+                if(valorItem>=condicao){
+
+                    lista.inserirFinal(anterior.getItem());
+
+                }
+
+                anterior = anterior.getProximo();
+
+            }
+
         }
 
-        for(int i=0; i<x;i++){
 
-            anterior=anterior.getProximo();
-            
-        }
-
-
+        return lista;
     }
 
 
