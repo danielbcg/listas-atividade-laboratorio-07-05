@@ -42,11 +42,10 @@ public class Lista<E> {
 
     public void inserirFinal(E valor){
 
-        Celula<E> novo = new Celula<>(valor);
-        this.ultimo.setProximo(novo);
-        this.ultimo=novo; // n entendi 
-        this.tamanho++; //aumenta tamanho da lista pq é flexivel
-
+        Celula<E> novaCelula = new Celula<>(valor);
+        this.ultimo.setProximo(novaCelula);
+        this.ultimo = novaCelula;
+        this.tamanho++;
 
 
 
@@ -142,41 +141,46 @@ public class Lista<E> {
     }
 
 
+    public Lista<E> listaFiltrada(double condicao, double quantidade){
 
 
 
 
-
-    public Lista<E> filtrar(double condicao, int quantidade){
-
-
-        //nova lista
-        Lista<E> lista = new Lista<>();
+        Lista<E> novaLista = new Lista<>();
 
         Celula<E> anterior = this.primeiro.getProximo();
 
-        if(condicao<0 || quantidade<1){ // pelo menos 1 elemento pra quantidade
 
-            for(int i=0; i<quantidade && anterior != null ; i++){
 
-                double valorItem = (double) anterior.getItem();
 
-                if(valorItem>=condicao){
 
-                    lista.inserirFinal(anterior.getItem());
+        for(int i=0; i<quantidade && anterior!=null; i++){
 
-                }
+            double valorItem = (double) anterior.getItem(); // ver com a prof se ela
+                                                            //deixa usar só (double)
+                                                            //ou parseDouble
 
-                anterior = anterior.getProximo();
+            if(valorItem > condicao){
+
+                novaLista.inserirFinal(anterior.getItem());
 
             }
+
+            anterior = anterior.getProximo();
+
 
         }
 
 
-        return lista;
+        return novaLista;
+
     }
 
+
+
+
+
+    
 
 
 
