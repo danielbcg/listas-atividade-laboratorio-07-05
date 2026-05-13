@@ -1,3 +1,5 @@
+import java.util.function.Predicate;
+
 public class Lista<E> {
 
     private Celula<E> primeiro;
@@ -91,26 +93,80 @@ public class Lista<E> {
     public double media(int x){
 
 
-        Celula<E> anterior = this.primeiro;
-        Celula<E> celulaRemovida;
-        Celula<E> proximaCelula;
-
-
-        int soma=0;
-
-        if(x==0){
-            return 0;
+        if(x<=0){
+            throw new IllegalArgumentException("O valor de x deve ser maior que zero.");
+        }
+        if(x>this.tamanho){ 
+            throw new IllegalArgumentException("O valor de x deve ser menor ou igual ao tamanho da lista.");
         }
 
-        if (x<0){
-            return -1;
+
+        Celula<E> atual = this.primeiro.getProximo();
+        double soma = 0.0;
+
+        for(int i=0; i<x ; i++){
+
+            //verifica se o item é um numero antes da soma
+            if(atual.getItem() instanceof Number){
+
+                //converte o item generico e extrai como double
+                Number valor = (Number) atual.getItem();
+                soma+=valor.doubleValue();
+
+            }else{
+                throw new ClassCastException("A lista tme elementos q nao sao numeros");
+            }
+
+            //avança pro proximo elemento
+            atual = atual.getProximo();
+
+
+
         }
 
-        for(int i=0; i<x;i++){
 
-            anterior=anterior.getProximo();
-            
+        return soma/x;
+
+
+
+    }
+
+
+
+
+    public Lista<E> filtrar(Predicate<E> condicao, int x){
+        
+
+        if(x<=0){
+            throw new IllegalArgumentException("Deve ser maior ou igual a 0");
         }
+
+        //cria lista
+        Lista<E> listaFiltrada = new Lista<>();
+        
+        int elementosEncontrados=0;
+
+        for(Celula<E> atual = this.primeiro.getProximo(); //inicia a busca apos a celula sentinela
+            atual!=null && elementosEncontrados<x;
+            atual = atual.getProximo()){
+
+
+                E item = atual.getItem();
+
+                //VERIFICA CONDIÇAO
+                if(condicao.test(item)){
+                    listaFiltrada.inserir(item, listaFiltrada.tamanho);
+                    elementosEncontrados++;
+                }
+
+
+                
+
+
+        }
+
+
+        return listaFiltrada;
 
 
     }
