@@ -42,6 +42,20 @@ public class Lista<E> {
     }
 
 
+    public void inserirFinal(E valor){
+
+        Celula<E> novaCelula = new Celula<>(valor);
+        this.ultimo.setProximo(novaCelula);
+        this.ultimo = novaCelula;
+        this.tamanho++;
+
+
+
+    }
+
+
+
+
     public E remover(int posicao){
 
 
@@ -93,84 +107,82 @@ public class Lista<E> {
     public double media(int x){
 
 
-        if(x<=0){
-            throw new IllegalArgumentException("O valor de x deve ser maior que zero.");
-        }
-        if(x>this.tamanho){ 
-            throw new IllegalArgumentException("O valor de x deve ser menor ou igual ao tamanho da lista.");
-        }
+        double soma = 0;
+
+        Celula<E> anterior = this.primeiro.getProximo();
+
+        double elementosNaoVazios=0;
 
 
-        Celula<E> atual = this.primeiro.getProximo();
-        double soma = 0.0;
+        if(anterior != null){
 
-        for(int i=0; i<x ; i++){
+            for(int i=0; i<x; i++) {
 
-            //verifica se o item é um numero antes da soma
-            if(atual.getItem() instanceof Number){
+                soma += (double) anterior.getItem();
 
-                //converte o item generico e extrai como double
-                Number valor = (Number) atual.getItem();
-                soma+=valor.doubleValue();
+                anterior = anterior.getProximo();
 
-            }else{
-                throw new ClassCastException("A lista tme elementos q nao sao numeros");
+                elementosNaoVazios++;
             }
 
-            //avança pro proximo elemento
-            atual = atual.getProximo();
 
 
 
         }
 
 
-        return soma/x;
+
+        double media=0;
 
 
+        media = soma / elementosNaoVazios;
+
+        return media;
+
+
+    }
+
+
+    public Lista<E> listaFiltrada(double condicao, double quantidade){
+
+
+
+
+        Lista<E> novaLista = new Lista<>();
+
+        Celula<E> anterior = this.primeiro.getProximo();
+
+
+
+
+
+        for(int i=0; i<quantidade && anterior!=null; i++){
+
+            double valorItem = (double) anterior.getItem(); // ver com a prof se ela
+                                                            //deixa usar só (double)
+                                                            //ou parseDouble
+
+            if(valorItem > condicao){
+
+                novaLista.inserirFinal(anterior.getItem());
+
+            }
+
+            anterior = anterior.getProximo();
+
+
+        }
+
+
+        return novaLista;
 
     }
 
 
 
 
-    public Lista<E> filtrar(Predicate<E> condicao, int x){
-        
 
-        if(x<=0){
-            throw new IllegalArgumentException("Deve ser maior ou igual a 0");
-        }
-
-        //cria lista
-        Lista<E> listaFiltrada = new Lista<>();
-        
-        int elementosEncontrados=0;
-
-        for(Celula<E> atual = this.primeiro.getProximo(); //inicia a busca apos a celula sentinela
-            atual!=null && elementosEncontrados<x;
-            atual = atual.getProximo()){
-
-
-                E item = atual.getItem();
-
-                //VERIFICA CONDIÇAO
-                if(condicao.test(item)){
-                    listaFiltrada.inserir(item, listaFiltrada.tamanho);
-                    elementosEncontrados++;
-                }
-
-
-                
-
-
-        }
-
-
-        return listaFiltrada;
-
-
-    }
-
+    
 
 
 
