@@ -1,6 +1,6 @@
 import java.util.function.Predicate;
 
-public class Lista<E> {
+public class Lista<E extends Comparable<E>> {
 
     private Celula<E> primeiro;
     private Celula<E> ultimo;
@@ -170,6 +170,57 @@ public class Lista<E> {
 
             anterior = anterior.getProximo();
 
+
+        }
+
+
+        return novaLista;
+
+    }
+
+
+
+    public Lista<E> dividir(E item ){
+        
+        
+        Lista<E> novaLista = new Lista<>();
+
+        
+        Celula<E> anterior=this.primeiro,i;
+
+
+
+
+        while(anterior.getProximo()!=null){
+
+            E atual = anterior.getProximo().getItem();
+
+            if(atual.compareTo(item)>=0){
+                
+                Celula<E> celulaRemovida = anterior.getProximo();
+
+                novaLista.inserirFinal(celulaRemovida.getItem());
+
+                anterior.setProximo(celulaRemovida.getProximo());
+
+
+                if(celulaRemovida==this.ultimo){
+                    this.ultimo=anterior;
+                }
+
+                this.tamanho--;
+
+
+
+            }else{
+
+                anterior=anterior.getProximo();
+
+
+            }
+
+
+            
 
         }
 
