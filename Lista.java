@@ -225,6 +225,52 @@ public class Lista<E extends Comparable<E>> {
 
 
 
+    //questao do gemini
+    public Lista<E> separarPorAno(E livroReferencia){
+
+        Lista<E> novaLista = new Lista<>();
+
+        Celula<E> anterior=primeiro; //começa na sentinela
+        
+
+        while(anterior.getProximo()!=null){
+
+
+            E livro = anterior.getProximo().getItem();
+
+
+            if(livro.compareTo(livroReferencia)>=0){
+
+                Celula<E> livroRemovido = anterior.getProximo();
+
+                novaLista.inserirFinal(livroRemovido.getItem());
+
+                anterior.setProximo(livroRemovido.getProximo());
+
+                if(livroRemovido==this.ultimo){
+                    this.ultimo=anterior;
+                }
+                
+                this.tamanho--;
+
+
+
+
+            }else{
+                anterior=anterior.getProximo();
+            }
+
+
+        }
+
+
+        return novaLista;
+
+
+    }
+
+
+
 
 
     
