@@ -185,27 +185,23 @@ public class Lista<E extends Comparable<E>> {
         
         Lista<E> novaLista = new Lista<>();
 
-        
-        Celula<E> anterior=this.primeiro,i;
-
-
-
+        Celula<E> anterior = primeiro;
 
         while(anterior.getProximo()!=null){
 
-            E atual = anterior.getProximo().getItem();
+            E produto = anterior.getProximo().getItem();
 
-            if(atual.compareTo(item)>=0){
-                
+
+            if(produto.compareTo(item)>=0){
+
                 Celula<E> celulaRemovida = anterior.getProximo();
 
                 novaLista.inserirFinal(celulaRemovida.getItem());
 
                 anterior.setProximo(celulaRemovida.getProximo());
 
-
                 if(celulaRemovida==this.ultimo){
-                    this.ultimo=anterior;
+                    this.ultimo = anterior;
                 }
 
                 this.tamanho--;
@@ -216,17 +212,15 @@ public class Lista<E extends Comparable<E>> {
 
                 anterior=anterior.getProximo();
 
-
             }
 
-
-            
 
         }
 
 
         return novaLista;
 
+        
     }
 
 
