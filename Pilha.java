@@ -6,41 +6,40 @@ public class Pilha<E> {
 
 
     public Pilha(){
-
-        fundo = new Celula<>(null);
-        topo = fundo;
-
-
-
+        fundo = new Celula<>();
+        topo=fundo;
     }
 
+    public E empilhar(E item){
 
+        Celula<E> nova = new Celula<>(item); //cria a nova celula
 
+        nova.setProximo(topo); //nova celula vai apontar pro antigo topo
 
-    public void empilhar(E item){
+        topo=nova; //topo vira nova, e nova ainda ta apontando pro antigo topo
 
-        Celula<E> nova = new Celula<>(item);
+        return nova.getItem();
 
-        nova.setProximo(topo); //a nova celula ta apontando pro antigo topo
-
-        topo=nova; //topo vira nova, mas nova ainda ta apontando pro antigo topo
     }
 
     public E desempilhar(){
 
-        if(vazia()==true){
+        if(topo==fundo){
             throw new IllegalArgumentException("Nada para desempilhar.");
         }
 
-        E item = topo.getItem();
-        topo = topo.getProximo(); //lembra q nova (agr topo) tava apontando pro antigo topo?
-                                  //agr ele faz getProximo e vai pra direçao q ele tava apontando
+        topo = topo.getProximo(); //lembra q nova (q agora é topo) tava apontando pro antigo topo?
 
-        return item;
+        return topo.getItem();
+
 
 
 
     }
+
+
+
+
 
     public E consultarTopo(){
 
@@ -57,4 +56,151 @@ public class Pilha<E> {
 
         return vazio;
     }
+
+
+
+    public void concatenar(Pilha<E> pilha){
+
+
+        Pilha<E> pilhaAuxiliar = new Pilha<>();
+
+
+        while(!pilha.vazia()){
+
+
+            E itemDesempilhado = pilha.desempilhar();
+
+            pilhaAuxiliar.empilhar(itemDesempilhado);
+        }
+
+        while(!pilhaAuxiliar.vazia()){
+
+
+            E itemDesempilhado = pilhaAuxiliar.desempilhar();
+
+            this.empilhar(itemDesempilhado);
+
+        }
+
+
+
+        
+
+
+    }
+
+
+    public int obterNumeroItens(){
+
+        int itens=0;
+
+        Celula<E> i = topo;
+
+        
+
+        while(i!=fundo){
+
+            itens++;
+
+            i=i.getProximo();
+
+        }
+
+
+
+
+        return itens;
+    }
+
+    public Pilha<E> inverter(){
+
+        Pilha<E> pilhaAux1 = new Pilha<>();
+        Pilha<E> pilhaAux2 = new Pilha<>();
+        
+        while(!vazia()){
+            E item = desempilhar();
+            pilhaAux1.empilhar(item);
+        }
+
+        while(!pilhaAux1.vazia()){
+            E item2 = pilhaAux1.desempilhar();
+            pilhaAux2.empilhar(item2);
+        }
+
+        while(!pilhaAux2.vazia()){
+            E item3 = pilhaAux2.desempilhar();
+            empilhar(item3);
+        }
+
+        
+        return this;
+        
+
+    }
+
+
+
+    public Pilha<E> excluirElementosAntigos(double porcentagem){
+
+        double calculo = obterNumeroItens()*porcentagem;
+        double sobraram = obterNumeroItens()*(1-porcentagem);
+        
+
+        if(obterNumeroItens()<=0 || vazia()){
+            throw new IllegalArgumentException("ERRO.");
+        }
+
+        if( calculo % 1 != 0 ){
+            calculo=calculo-calculo%1; //arredonda pra baixo
+        }
+        
+        if( sobraram % 1 != 0 ){
+            sobraram=sobraram-sobraram%1; //arredonda pra baixo
+        }
+
+        //desempilhar até chegar na quantidade que devo retirar
+
+        Pilha<E> pilhaAuxiliar = new Pilha<>();
+        Pilha<E> excluidos = new Pilha<>();
+        
+
+
+        while(sobraram>0){
+            E item = desempilhar();
+            pilhaAuxiliar.empilhar(item);
+
+            sobraram--;
+        }
+
+        while(calculo>0){
+            E item2 = desempilhar();
+            excluidos.empilhar(item2);
+
+            calculo--;
+        }
+
+        //reempilhar na original
+        while(!pilhaAuxiliar.vazia()){
+            E item3 = pilhaAuxiliar.desempilhar();
+            empilhar(item3);
+        }
+
+
+        return this;
+
+
+
+
+
+
+
+
+    }
+
+
+    
+
+
+    
+
 }

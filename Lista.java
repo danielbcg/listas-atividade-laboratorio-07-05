@@ -1,4 +1,4 @@
-import java.util.function.Predicate;
+
 
 public class Lista<E extends Comparable<E>> {
 
