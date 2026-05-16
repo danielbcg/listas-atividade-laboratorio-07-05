@@ -44,6 +44,54 @@ public class Fila<E> {
 
     }
 
+
+
+    public int obterNumeroItens(Celula<E> aux){
+
+        if(aux==null){
+            return 0;
+        }
+
+        if(aux.getItem()!=null){
+            return 1 + obterNumeroItens(aux.getProximo());
+        }
+        else{
+            return obterNumeroItens(aux.getProximo());
+        }
+
+
+    }
+
+
+
+
+    public boolean metodoAuxiliarContem(E item){
+        return contem(item, frente.getProximo());
+    }
+
+    public boolean contem(E item, Celula<E> aux){
+
+        if(aux == null){
+            return false;
+        }
+
+        if(!aux.getItem().equals(item)){
+            return contem(item, aux.getProximo());
+        }else{
+            return true;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     public Fila<E> unir(Fila<E> fila){
 
         Fila<E> novaFila = new Fila<>();
