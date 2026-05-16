@@ -46,6 +46,7 @@ public class Fila<E> {
 
 
 
+    //questao 4
     public int obterNumeroItens(Celula<E> aux){
 
         if(aux==null){
@@ -65,6 +66,7 @@ public class Fila<E> {
 
 
 
+    //questao 5
     public boolean metodoAuxiliarContem(E item){
         return contem(item, frente.getProximo());
     }
@@ -109,7 +111,7 @@ public class Fila<E> {
         Celula<E> atual2 = fila.frente.getProximo();
 
         while(atual2!=null){
-            novaFila.enfileirar(atual.getItem());
+            novaFila.enfileirar(atual2.getItem());
             atual2=atual2.getProximo();
         }
 
@@ -157,5 +159,151 @@ public class Fila<E> {
 
 
     }
+
+
+    public Fila<E> filaInvertida(Fila<E> fila){
+
+
+        Pilha<E> pilhaAuxiliar = new Pilha<>();
+
+        while(!fila.vazia()){
+            pilhaAuxiliar.empilhar(fila.desenfileirar());
+        }
+
+        while(!pilhaAuxiliar.vazia()){
+            fila.enfileirar(pilhaAuxiliar.desempilhar());
+        }
+
+        return fila;
+
+
+
+
+    }
+
+    public Fila<E> filaIgualMasInvertida(){
+
+        Fila<E> filaInvertida = new Fila<>();
+        Pilha<E> pilhaAuxiliar = new Pilha<>();
+        
+        //NAO PODE DESTRUIR NEM MODIFICAR FILA
+        //PARA ISSO DEVE-SE COPIAR AS CELULAS DA FILA EM OUTRA
+
+        Celula<E> atual = this.frente.getProximo();
+
+        while( atual != null ){
+            pilhaAuxiliar.empilhar(atual.getItem()); //copia item da fila pra pilha
+            atual = atual.getProximo(); //passa pro proximo
+        }
+
+        while(!pilhaAuxiliar.vazia()){
+
+            filaInvertida.enfileirar(pilhaAuxiliar.desempilhar());
+
+        }
+
+
+
+        return filaInvertida;
+
+    }
+
+
+
+    public void mesclar (Fila<E> fila){
+
+        Fila<E> filaMesclada = new Fila<>();
+
+
+
+
+        while (!vazia() || !fila.vazia()) {
+
+            filaMesclada.enfileirar(desenfileirar());
+            filaMesclada.enfileirar(fila.desenfileirar());
+            
+            
+        }
+
+        this.frente = filaMesclada.frente;
+        this.tras = filaMesclada.tras;
+
+    }
+
+    public void inverter(){
+
+        Pilha<E> pilhaAuxiliar = new Pilha<>();
+
+        while(!this.vazia()){
+            pilhaAuxiliar.empilhar(this.desenfileirar());
+        }
+
+        while(!pilhaAuxiliar.vazia()){
+            this.enfileirar(pilhaAuxiliar.desempilhar());
+        }
+
+    }
+
+
+
+    public int quantosAFrente(Celula<E> atual, E item){
+
+
+        if(atual==null){
+            throw new IndexOutOfBoundsException("Item nao encontrado");
+        }
+
+        if(!atual.getItem().equals(item) && !atual.getItem().equals(null)){
+    
+            return  1 + quantosAFrente(atual.getProximo(), item);
+        
+        }else{
+            return 0;
+        }
+
+
+
+    }
+
+    public Fila<E> dividir(){ //retornar fila de posiçoes pares da original, manter as posiçoes impares
+
+        Fila<E> filaPar = new Fila<>();
+        Fila<E> filaImpar = new Fila<>();
+
+        int i=0;
+
+
+        while(!vazia()){
+
+            E item = desenfileirar();
+
+
+            if(i%2==0){
+                filaPar.enfileirar(item);
+            }
+            else{
+                filaImpar.enfileirar(item);
+            }
+
+
+
+            i++;
+
+
+        }
+
+
+
+        this.frente=filaImpar.frente;
+        this.tras=filaImpar.tras;
+
+
+        return filaPar;
+
+    }
+
+
+
+
     
 }
