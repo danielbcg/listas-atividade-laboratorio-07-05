@@ -198,6 +198,99 @@ public class Pilha<E> {
     }
 
 
+    public void mesclar(Pilha<E> pilhaParam){
+
+        Pilha<E> novaPilha = new Pilha<>();
+
+        Pilha<E> pilhaThisAux = new Pilha<>();
+        Pilha<E> pilhaParamAux = new Pilha<>();
+
+        while (!vazia()) {
+
+            pilhaThisAux.empilhar(desempilhar());
+            
+        }
+
+        while (!pilhaParam.vazia()) {
+
+            pilhaParamAux.empilhar(pilhaParam.desempilhar());
+            
+        }
+
+
+        while (!pilhaThisAux.vazia() || !pilhaParamAux.vazia()) {
+
+            if(!pilhaThisAux.vazia()){
+                novaPilha.empilhar(pilhaThisAux.desempilhar());
+            }
+            if(!pilhaParamAux.vazia()){
+                novaPilha.empilhar(pilhaParamAux.desempilhar());
+            }
+            
+        }
+
+        this.topo=novaPilha.topo;
+        this.fundo=novaPilha.fundo;
+
+
+    }
+
+
+
+    //copia sem destruir a pilha atual
+    public Pilha<E> copiando(){
+
+        Pilha<E> pilhaAux = new Pilha<E>();
+        Pilha<E> cópia = new Pilha<E>();
+
+        Celula<E> auxThis = this.topo;
+        Celula<E> auxPilha = pilhaAux.topo;
+
+
+        while(auxThis!=null && auxThis!=this.fundo){
+            pilhaAux.empilhar(auxThis.getItem());
+            auxThis=auxThis.getProximo();
+        }
+
+        while(auxPilha!=null && auxPilha!=this.fundo){
+            cópia.empilhar(auxPilha.getItem());
+            auxPilha = auxPilha.getProximo();
+        }
+
+        return cópia;
+
+    }
+
+
+    public Pilha<E> copiaRaiz(){
+
+        Pilha<E> copia = new Pilha<>();
+
+        Celula<E> aux = this.topo;
+
+        Celula<E> nova = new Celula<>(aux.getItem());
+        nova.setProximo(copia.fundo);
+        copia.topo=nova;
+        Celula<E> anterior = nova;
+
+        while(aux.getProximo()!=this.fundo){
+
+            aux=aux.getProximo();
+
+            nova = new Celula<>(aux.getItem());
+            nova.setProximo(copia.fundo);
+            anterior.setProximo(nova);
+            anterior=anterior.getProximo();
+
+
+        }
+
+        return copia;
+
+
+    }
+
+
     
 
 

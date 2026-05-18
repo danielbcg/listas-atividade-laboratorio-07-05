@@ -131,6 +131,20 @@ public class DequeDuplo<E extends Comparable<E>> {
     }
 
 
+    public void remover(Celula<E> alvo){
+
+        Celula<E> anterior = alvo.getAnterior();
+        Celula<E> proximo = alvo.getProximo();
+
+        anterior.setProximo(proximo);
+        proximo.setAnterior(anterior);
+
+        alvo.setProximo(null);
+        alvo.setAnterior(null);
+
+    }
+
+
 
 
 }

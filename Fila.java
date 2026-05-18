@@ -1,3 +1,5 @@
+import java.util.function.Predicate;
+
 public class Fila<E> {
 
 
@@ -9,6 +11,8 @@ public class Fila<E> {
         
         Celula<E> sentinela = new Celula<>();
         frente=tras=sentinela;
+        
+        
     }
 
     public Fila(E[] itens){
@@ -301,6 +305,125 @@ public class Fila<E> {
         return filaPar;
 
     }
+
+
+
+
+    //questao 2 atividade avaliativa
+    private E localizar(Predicate<E> condicional, Celula<E> atual){
+
+        if(atual==null){
+            return null;
+        }
+        else if(condicional.test(atual.getItem())){
+            return atual.getItem();
+        }
+        else{
+            return localizar(condicional, atual.getProximo());
+        }
+
+    }
+
+    public E chamaLocalizar(Predicate<E> condicional){
+        return localizar(condicional, frente.getProximo());
+    }
+
+
+    //questao gemini
+
+    public Fila<E> clonarFilaRaiz(){
+
+        Fila<E> copia = new Fila<>();
+
+        Celula<E> aux = this.frente.getProximo();
+
+        Celula<E> anterior=copia.frente;
+
+        while(aux!=null){
+
+            Celula<E> nova = new Celula<>(aux.getItem());
+
+            anterior.setProximo(nova);
+            anterior=anterior.getProximo();
+
+            aux=aux.getProximo();
+
+        }
+
+        copia.tras=anterior;
+
+        return copia;
+
+
+    }
+
+
+    public void mesclarRaiz(Fila<E> fila){
+
+        Fila<E> novaFila = new Fila<>();
+
+
+        while(!this.vazia() || !fila.vazia()){
+
+            if(!this.vazia()){
+                novaFila.enfileirar(desenfileirar());
+            }
+            
+            if(!this.vazia()){
+                novaFila.enfileirar(fila.desenfileirar());
+            }
+            
+        }
+
+        this.frente=novaFila.frente;
+        this.tras=novaFila.tras;
+
+    }
+
+
+    public Fila<E> dividirRaiz(){
+
+        Fila<E> filaPar = new Fila<>(); 
+        Fila<E> filaImpar = new Fila<>(); 
+
+
+        int i=0;
+
+        while(!vazia()){
+
+            if(i%2==0){ //elementos pares
+
+                filaPar.enfileirar(desenfileirar());
+
+            }
+
+            else{ //impares
+
+                filaImpar.enfileirar(desenfileirar());
+
+            }
+
+            i++;
+
+        }
+
+        this.frente=filaImpar.frente;
+        this.tras=filaImpar.tras;
+
+
+        return filaPar;
+
+
+
+    }
+
+    
+    
+
+
+
+
+    
 
 
 

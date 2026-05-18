@@ -548,6 +548,222 @@ public class Lista<E extends Comparable<E>> {
 
 
 
+
+
+    public void trocarPrimeiros(){
+
+        Celula<E> sentinela = primeiro;
+        Celula<E> A = sentinela.getProximo();
+        Celula<E> B = A.getProximo();
+        Celula<E> C = B.getProximo();
+
+        sentinela.setProximo(B);
+        B.setProximo(A);
+        A.setProximo(C);
+
+        sentinela=sentinela.getProximo();
+        B=B.getProximo();
+        A=A.getProximo();
+
+
+
+    }
+
+    public void moverPrimeiroParaOUltimo(){
+
+        Celula<E> sentinela = primeiro;
+        Celula<E> alvo = sentinela.getProximo();
+        
+
+        Celula<E> auxThis = alvo;
+
+        while(auxThis!=null){
+
+            if(auxThis.getProximo()==null){
+                sentinela.setProximo(alvo.getProximo());
+                
+                auxThis.setProximo(alvo);
+                alvo.setProximo(null);
+            }
+
+            auxThis=auxThis.getProximo();
+
+        }
+
+        this.ultimo=alvo;
+    
+
+        
+    }
+
+    public void moverValorParaOFim(E x){
+
+
+        Celula<E> aux = this.primeiro;
+        boolean encontrou=false;
+        Celula<E> celulaEncontrada = this.primeiro;
+
+
+
+
+        while(aux!=null && encontrou==false){
+
+            if(aux.getProximo().getItem().equals(x)){
+
+                celulaEncontrada = aux.getProximo();
+                aux.setProximo(celulaEncontrada.getProximo());
+                celulaEncontrada.setProximo(null);
+                encontrou=true;
+
+            }
+
+
+            
+
+            if(encontrou==false){
+                aux=aux.getProximo();
+            }
+
+        }
+
+
+
+        if(encontrou==true){
+            while(aux!=null){
+
+                if(aux.getProximo()==null){
+                    aux.setProximo(celulaEncontrada);
+                    this.ultimo=celulaEncontrada;
+                }
+
+                if(aux.getProximo()!=null){
+                aux=aux.getProximo();
+                }   
+            }
+
+
+        }
+
+        
+
+
+
+
+
+    }
+
+
+
+
+
+    public void trocarComProximo(E x){
+
+        Celula<E> aux = this.primeiro;
+        
+
+        while(aux!=null){
+
+            if(aux.getProximo().getItem().equals(x)){
+                
+                Celula<E> celulaEncontrada = aux.getProximo();
+                Celula<E> depoisDaCelula = celulaEncontrada.getProximo();
+                
+                if(celulaEncontrada.getProximo()!=null){
+                celulaEncontrada.setProximo(depoisDaCelula.getProximo());
+                
+                depoisDaCelula.setProximo(celulaEncontrada);
+        
+                aux.setProximo(depoisDaCelula);
+            
+
+
+            }
+
+            }
+
+            else{
+                aux=aux.getProximo();
+            }
+        }
+
+    
+
+
+    }
+
+
+
+
+
+
+    public void inverterRaiz(){
+
+        Celula<E> anterior = null;
+        Celula<E> atual = this.primeiro.getProximo();
+        Celula<E> proximo = null;
+
+        this.ultimo=atual;
+
+        while(atual!=null){
+            proximo=atual.getProximo();
+            atual.setProximo(anterior);
+
+            anterior=atual;
+            atual=proximo;
+        }
+
+        primeiro.setProximo(anterior);
+
+    }
+
+
+
+    //////////////nao aguento maisssssssssssssssssssssssssssssssss
+    public Lista<E> dividirRaiz(E item){
+
+        Lista<E> novaLista = new Lista<>();
+
+        Celula<E> aux = this.primeiro.getProximo();
+
+        int i=0;
+
+        while(aux!=null){
+
+            if(aux.getItem().compareTo(item)>=0){
+
+                Celula<E> proximaAux = aux.getProximo();
+                
+                E itemRemovido = remover(i);
+
+                novaLista.inserir(itemRemovido, novaLista.tamanho);
+
+                aux=proximaAux;
+
+            }else{
+                i++;
+                aux=aux.getProximo();
+
+            }
+
+
+
+        }
+
+        return novaLista;
+
+        
+
+    }
+
+
+
+
+    
+
+
+
+
+
     
 
 
