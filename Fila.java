@@ -148,19 +148,21 @@ public class Fila<E> {
             throw new IllegalArgumentException("ERRO.");
         }
 
-        Celula<E> celulaRemovida = frente.getProximo();
+        Celula<E> celulaDesenfileirada = this.frente.getProximo();
 
-        frente.setProximo(celulaRemovida.getProximo());
+        
 
-        if(celulaRemovida==tras){
+        frente.setProximo(celulaDesenfileirada.getProximo());
+
+        if(celulaDesenfileirada.getProximo()==null){
             tras=frente;
         }
 
-        celulaRemovida.setProximo(null);
-
-        return celulaRemovida.getItem();
+        celulaDesenfileirada.setProximo(null);
 
 
+        
+        return celulaDesenfileirada.getItem();
 
     }
 
@@ -413,6 +415,27 @@ public class Fila<E> {
 
         return filaPar;
 
+
+
+    }
+
+    public void inverterRaiz(){
+
+        Celula<E> anterior =null;
+        Celula<E> atual = this.frente.getProximo();
+        Celula<E> proximo = null;
+
+        this.tras = atual;
+
+        while(atual!=null){
+            proximo = atual.getProximo();
+            atual.setProximo(anterior);
+
+            anterior=atual;
+            atual=proximo;
+        }
+
+        this.frente.setProximo(anterior);
 
 
     }

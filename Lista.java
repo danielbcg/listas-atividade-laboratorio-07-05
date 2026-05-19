@@ -698,23 +698,26 @@ public class Lista<E extends Comparable<E>> {
 
     public void inverterRaiz(){
 
-        Celula<E> anterior = null;
+        Celula<E> anterior=null;
         Celula<E> atual = this.primeiro.getProximo();
         Celula<E> proximo = null;
 
         this.ultimo=atual;
 
         while(atual!=null){
-            proximo=atual.getProximo();
+            proximo = atual.getProximo();
             atual.setProximo(anterior);
 
             anterior=atual;
             atual=proximo;
         }
 
-        primeiro.setProximo(anterior);
+        this.primeiro.setProximo(anterior);
 
     }
+
+
+
 
 
 
@@ -752,6 +755,169 @@ public class Lista<E extends Comparable<E>> {
         return novaLista;
 
         
+
+    }
+
+
+
+    public void inserirListaOrdenada(E item){ //refazer
+
+        Celula<E> novaCelula = new Celula<>(item);
+
+        Celula<E> anterior = this.primeiro;
+        Celula<E> atual = this.primeiro.getProximo();
+
+        while (atual!=null) {
+
+            if(atual.getItem().compareTo(item)>0){
+
+                
+                anterior.setProximo(novaCelula);
+
+                if(atual.getProximo()==null){
+                    novaCelula.setProximo(null);
+                    this.ultimo=novaCelula;
+                }else{
+                    
+                    novaCelula.setProximo(atual);
+
+                }
+
+                
+                
+                
+
+            }else{
+                anterior=atual;
+                atual=atual.getProximo();
+                
+            }
+
+
+            
+        }
+
+    }
+
+
+
+    public void removerNós(E item){
+
+        Celula<E> anterior = this.primeiro;
+        Celula<E> atual = this.primeiro.getProximo();
+
+
+        if(primeiro==ultimo){
+            throw new IllegalArgumentException("Lista vazia");
+        }
+        
+
+        while(atual!=null){
+
+            if(atual.getItem().equals(item)){
+
+                Celula<E> celulaRemovida = atual;
+                Celula<E> pósRemovida = celulaRemovida.getProximo();
+
+                
+                atual=pósRemovida;
+                anterior.setProximo(pósRemovida);
+
+                celulaRemovida.setProximo(null);
+
+                if(pósRemovida==null){
+                    this.ultimo=anterior;
+                }
+
+
+            }else{
+                
+                anterior=atual;
+                atual=atual.getProximo();
+            }
+
+
+            
+
+        }
+
+        
+
+    }
+
+    public void invertednv(){
+
+        if(primeiro==ultimo){
+            throw new IllegalArgumentException("nada pra inverter");
+        }
+
+        Celula<E> anterior =null;
+        Celula<E> atual = this.primeiro.getProximo();
+        Celula<E> proximo = null;
+
+        this.ultimo=atual;
+
+        while(atual!=null){
+            proximo=atual.getProximo();
+            atual.setProximo(anterior);
+
+            anterior=atual;
+            atual=proximo;
+        }
+
+        primeiro.setProximo(anterior);
+
+
+    }
+
+
+    public Celula<E> encontrarElementoMeio(){
+
+        Celula<E> rapido=this.primeiro.getProximo();
+        Celula<E> lento=this.primeiro.getProximo();
+
+        while(rapido!=null){
+
+            lento=lento.getProximo();
+            rapido=rapido.getProximo().getProximo();
+
+        }
+
+
+        return lento;
+
+
+    }
+
+
+    public boolean isOrdenadaCrescente(){
+
+        Celula<E> anterior=this.primeiro.getProximo(); //tem q 
+        Celula<E> atual=this.primeiro.getProximo().getProximo();
+        
+
+        boolean ordenada=true;
+
+        if(primeiro==ultimo){
+            throw new IllegalArgumentException("Lista vazia");
+        }
+
+
+        while(atual!=null){
+
+            if(anterior.getItem().compareTo(atual.getItem())>0){
+
+                ordenada=false;
+
+            }
+
+            anterior=atual;
+            atual=atual.getProximo();
+
+
+        }
+
+        return ordenada;
 
     }
 

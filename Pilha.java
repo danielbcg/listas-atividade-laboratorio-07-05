@@ -1,4 +1,4 @@
-public class Pilha<E> {
+public class Pilha<E extends Comparable<E>> {
     
     private Celula<E> topo;
     private Celula<E> fundo;
@@ -289,6 +289,84 @@ public class Pilha<E> {
 
 
     }
+
+
+    public void inverterPilhaRaiz(){
+
+      Celula<E> anterior = null;
+      Celula<E> atual = this.topo;
+      Celula<E> proximo = null;
+
+      while(atual!=null){
+        proximo=atual.getProximo();
+        atual.setProximo(anterior);
+
+        anterior=atual;
+        atual=proximo;
+      }
+
+      this.topo=anterior;
+
+
+    }
+
+    public void removeDuplicatas(){
+
+
+        Celula<E> atual = this.topo;
+        Celula<E> anterior = this.topo.getProximo();
+
+        if(topo==fundo){
+            throw new IllegalArgumentException("Nada para remover.");
+        }
+
+
+        while(atual!=null && atual!=fundo.getProximo()){
+
+            if(atual.getItem().equals(anterior.getItem())){
+
+                anterior.setProximo(atual.getProximo());
+
+                atual.setProximo(null);
+
+                atual=anterior.getProximo();
+
+            }else{
+
+                anterior=atual;
+                atual=atual.getProximo();
+                
+
+            }
+
+        }
+
+
+    }
+
+
+    public void ordenarPilha(Pilha<E> pilhaOriginal){
+
+
+        Celula<E> atual = pilhaOriginal.topo.getProximo();
+
+        if(topo==fundo){
+            throw new IllegalArgumentException("Pilha vazia.");
+        }
+
+        while(atual!=null && atual!=pilhaOriginal.fundo.getProximo()){
+
+            while()
+            
+
+            
+        }
+
+
+
+    }
+
+    
 
 
     
